@@ -70,7 +70,7 @@ namespace UIInfoSuite2.UIElements
                         new Rectangle(iconPosition.X, iconPosition.Y, 40, 40),
                         _robinIconSheet,
                         _buildingIconSpriteLocation.Value,
-                        8 / 3f);
+                        40 / 64f);
                 _buildingIcon.Value.draw(Game1.spriteBatch);
             }
         }
@@ -109,22 +109,8 @@ namespace UIInfoSuite2.UIElements
 
         private void FindRobinSpritesheet()
         {
-            foreach (var location in Game1.locations)
-            {
-                foreach (var character in location.characters)
-                {
-                    if (character.Name == "Robin")
-                    {
-                        _robinIconSheet = character.Sprite.Texture;
-                        break;
-                    }
-                }
-
-                if (_robinIconSheet != null)
-                    break;
-            }
-
-            _buildingIconSpriteLocation = new Rectangle(0, 195 + 1, 15, 15 - 1);    // 1px edits for better alignment with other icons
+            _robinIconSheet = Game1.content.Load<Texture2D>("LooseSprites\\robinAtWork");
+            _buildingIconSpriteLocation = new Rectangle(64, 0, 64, 64);
         }
         #endregion
     }
