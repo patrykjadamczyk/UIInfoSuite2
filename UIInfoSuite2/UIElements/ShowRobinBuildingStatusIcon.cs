@@ -96,7 +96,7 @@ namespace UIInfoSuite2.UIElements
 
             if (remainingDays <= 0)
             {
-                Building b = Game1.getFarm().getBuildingUnderConstruction();
+                Building b = Tools.GetBuildingUnderConstruction();
 
                 if (b is not null)
                 {

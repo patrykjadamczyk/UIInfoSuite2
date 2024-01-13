@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -6,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewValley;
+using StardewValley.Buildings;
 using StardewValley.Menus;
 using SObject = StardewValley.Object;
 
@@ -195,6 +197,14 @@ namespace UIInfoSuite2.Infrastructure
                     destColors[idx] = sourcePixel;
                 }
             }
+        }
+        public static Building GetBuildingUnderConstruction()
+        {
+            return Game1
+                .getFarm()
+                .buildings
+                .Where((building => building.daysOfConstructionLeft.Value > 0 || building.daysUntilUpgrade.Value > 0))
+                .FirstOrDefault((Building)null);
         }
     }
 }

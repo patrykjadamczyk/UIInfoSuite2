@@ -270,7 +270,11 @@ namespace UIInfoSuite2.UIElements
 
                             if (Game1.options.gamepadControls && Game1.timerUntilMouseFade <= 0)
                             {
-                                var tilePosition = Utility.ModifyCoordinatesForUIScale(Game1.GlobalToLocal(new Vector2(terrain.currentTileLocation.X, terrain.currentTileLocation.Y) * Game1.tileSize));
+                                var tilePosition = Utility.ModifyCoordinatesForUIScale(
+                                    Game1.GlobalToLocal(
+                                        new Vector2(terrain.Tile.X, terrain.Tile.Y) * Game1.tileSize
+                                    )
+                                );
                                 overrideX = (int)(tilePosition.X + Utility.ModifyCoordinateForUIScale(32));
                                 overrideY = (int)(tilePosition.Y + Utility.ModifyCoordinateForUIScale(32));
                             }
