@@ -138,9 +138,9 @@ namespace UIInfoSuite2.UIElements
             return Game1.getWeatherModificationsForDate(date, tomorrowWeather);
         }
 
-        private static int GetIslandWeatherForTomorrow()
+        private static string GetIslandWeatherForTomorrow()
         {
-            return Game1.netWorldState.Value.GetWeatherForLocation(GameLocation.LocationContext.Island).weatherForTomorrow.Value;
+            return Game1.netWorldState.Value.GetWeatherForLocation(LocationContexts.IslandId).weatherForTomorrow.Value;
         }
 
         /// <summary>

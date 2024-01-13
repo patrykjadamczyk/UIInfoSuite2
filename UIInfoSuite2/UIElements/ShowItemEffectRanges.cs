@@ -117,7 +117,7 @@ namespace UIInfoSuite2.UIElements
                 if (building is JunimoHut)
                 {
                     arrayToUse = GetDistanceArray(ObjectsWithDistance.JunimoHut);
-                    foreach (var nextBuilding in buildableLocation.buildings)
+                    foreach (var nextBuilding in Game1.currentLocation.buildings)
                     {
                         if (nextBuilding is JunimoHut nextHut)
                         {
