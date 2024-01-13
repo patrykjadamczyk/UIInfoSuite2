@@ -15,21 +15,6 @@ namespace UIInfoSuite2.Infrastructure
 {
     public static class Tools
     {
-        public static void CreateSafeDelayedDialogue(string dialogue, int timer)
-        {
-            Task.Factory.StartNew(() =>
-            {
-                Thread.Sleep(timer);
-
-                do
-                {
-                    Thread.Sleep(TimeSpan.FromSeconds(1));
-                }
-                while (Game1.activeClickableMenu is GameMenu);
-                Game1.setDialogue(dialogue, true);
-            });
-        }
-
         public static int GetWidthInPlayArea()
         {
             if (Game1.isOutdoorMapSmallerThanViewport())
@@ -62,12 +47,12 @@ namespace UIInfoSuite2.Infrastructure
         {
             if (item is SObject seedsObject
                 && seedsObject.Category == StardewValley.Object.SeedsCategory
-                && seedsObject.ParentSheetIndex != Crop.mixedSeedIndex)
+                && seedsObject.QualifiedItemId != Crop.mixedSeedsQId)
             {
                 if (seedsObject.isSapling())
                 {
-                    var tree = new StardewValley.TerrainFeatures.FruitTree(seedsObject.ParentSheetIndex);
-                    return new SObject(tree.indexOfFruit.Value, 1);
+                    var tree = new StardewValley.TerrainFeatures.FruitTree(seedsObject.ItemId);
+                    return new SObject(tree.fruit.First().ItemId, 1);
                 }
                 else if (ModEntry.DGA.IsCustomObject(item, out var dgaHelper))
                 {
@@ -93,7 +78,7 @@ namespace UIInfoSuite2.Infrastructure
                 }
                 else
                 {
-                    var crop = new Crop(seedsObject.ParentSheetIndex, 0, 0);
+                    var crop = new Crop(seedsObject.ItemId, 0, 0, Game1.currentLocation);
                     return new SObject(crop.indexOfHarvest.Value, 1);
                 }
             } else {
@@ -198,6 +183,7 @@ namespace UIInfoSuite2.Infrastructure
                 }
             }
         }
+        
         public static Building GetBuildingUnderConstruction()
         {
             return Game1

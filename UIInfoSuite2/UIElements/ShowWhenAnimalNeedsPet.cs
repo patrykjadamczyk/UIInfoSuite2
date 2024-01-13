@@ -10,6 +10,7 @@ using StardewValley.Locations;
 using StardewValley.Network;
 using System;
 using System.Linq;
+using StardewValley.GameData.FarmAnimals;
 
 namespace UIInfoSuite2.UIElements
 {
@@ -104,11 +105,14 @@ namespace UIInfoSuite2.UIElements
             {
                 foreach (var animal in animalsInCurrentLocation.Pairs)
                 {
-                    if (animal.Value.harvestType.Value != FarmAnimal.layHarvestType &&
+                    var animalHarvestType = animal.Value.GetHarvestType();
+                    if (animalHarvestType != null &&
+                        animalHarvestType.Value != FarmAnimalHarvestType.DropOvernight &&
                         !animal.Value.IsEmoting &&
-                        animal.Value.currentProduce.Value != 430 &&
-                        animal.Value.currentProduce.Value > 0 &&
-                        animal.Value.age.Value >= animal.Value.ageWhenMature.Value)
+                        int.TryParse(animal.Value.currentProduce.Value, out int animalCurrentProduce) &&
+                        animalCurrentProduce != 430 &&
+                        animalCurrentProduce > 0 &&
+                        animal.Value.age.Value >= animal.Value.GetAnimalData().DaysToMature)
                     {
                         Vector2 positionAboveAnimal = GetPetPositionAboveAnimal(animal.Value);
                         positionAboveAnimal.Y += (float)(Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / 300.0 + animal.Value.Name.GetHashCode()) * 5.0);
@@ -123,7 +127,7 @@ namespace UIInfoSuite2.UIElements
                             SpriteEffects.None,
                             1f);
 
-                        Rectangle sourceRectangle = GameLocation.getSourceRectForObject(animal.Value.currentProduce.Value);
+                        Rectangle sourceRectangle = GameLocation.getSourceRectForObject(animalCurrentProduce);
                         Game1.spriteBatch.Draw(
                             Game1.objectSpriteSheet,
                             Utility.ModifyCoordinatesForUIScale(new Vector2(positionAboveAnimal.X + 28f, positionAboveAnimal.Y + 8f)),

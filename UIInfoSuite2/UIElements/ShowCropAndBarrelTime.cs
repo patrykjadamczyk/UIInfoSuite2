@@ -10,6 +10,7 @@ using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UIInfoSuite2.Infrastructure;
 using UIInfoSuite2.Infrastructure.Extensions;
@@ -18,7 +19,7 @@ namespace UIInfoSuite2.UIElements
 {
     internal class ShowCropAndBarrelTime : IDisposable
     {
-        private readonly Dictionary<int, string> _indexOfCropNames = new();
+        private readonly Dictionary<string, string> _indexOfCropNames = new();
         private readonly PerScreen<StardewValley.Object> _currentTile = new();
         private readonly PerScreen<TerrainFeature> _terrain = new();
         private readonly PerScreen<Building> _currentTileBuilding = new();
@@ -289,7 +290,8 @@ namespace UIInfoSuite2.UIElements
                 else if (terrain is FruitTree)
                 {
                     FruitTree tree = terrain as FruitTree;
-                    var text = new StardewValley.Object(new Debris(tree.indexOfFruit.Value, Vector2.Zero, Vector2.Zero).chunkType.Value, 1).DisplayName;
+                    // var text = new StardewValley.Object(new Debris(tree.fruit.First(), Vector2.Zero, Vector2.Zero).chunkType.Value.ToString(), 1).DisplayName;
+                    var text = tree.fruit.First().DisplayName;
                     if (tree.daysUntilMature.Value > 0)
                     {
                         text += Environment.NewLine + tree.daysUntilMature.Value + " " +
@@ -300,7 +302,7 @@ namespace UIInfoSuite2.UIElements
 
                     if (Game1.options.gamepadControls && Game1.timerUntilMouseFade <= 0)
                     {
-                        var tilePosition = Utility.ModifyCoordinatesForUIScale(Game1.GlobalToLocal(new Vector2(terrain.currentTileLocation.X, terrain.currentTileLocation.Y) * Game1.tileSize));
+                        var tilePosition = Utility.ModifyCoordinatesForUIScale(Game1.GlobalToLocal(new Vector2(terrain.Tile.X, terrain.Tile.Y) * Game1.tileSize));
                         overrideX = (int)(tilePosition.X + Utility.ModifyCoordinateForUIScale(32));
                         overrideY = (int)(tilePosition.Y + Utility.ModifyCoordinateForUIScale(32));
                     }
@@ -318,13 +320,13 @@ namespace UIInfoSuite2.UIElements
                         int teaAge = bush.getAge();
                         if (teaAge < 20)
                         {
-                            string text = new StardewValley.Object(251, 1).DisplayName
+                            string text = new StardewValley.Object("251", 1).DisplayName
                                 + $"\n{20 - teaAge} "
                                 + _helper.SafeGetString(LanguageKeys.DaysToMature);
 
                             if (Game1.options.gamepadControls && Game1.timerUntilMouseFade <= 0)
                             {
-                                var tilePosition = Utility.ModifyCoordinatesForUIScale(Game1.GlobalToLocal(new Vector2(terrain.currentTileLocation.X, terrain.currentTileLocation.Y) * Game1.tileSize));
+                                var tilePosition = Utility.ModifyCoordinatesForUIScale(Game1.GlobalToLocal(new Vector2(terrain.Tile.X, terrain.Tile.Y) * Game1.tileSize));
                                 overrideX = (int)(tilePosition.X + Utility.ModifyCoordinateForUIScale(32));
                                 overrideY = (int)(tilePosition.Y + Utility.ModifyCoordinateForUIScale(32));
                             }
@@ -341,9 +343,9 @@ namespace UIInfoSuite2.UIElements
 
         string? GetCropHarvestName(Crop crop)
         {
-            if (crop.indexOfHarvest.Value > 0)
+            if (string.IsNullOrEmpty(crop.indexOfHarvest.Value))
             {
-                int itemId = crop.isWildSeedCrop() ? crop.whichForageCrop.Value : crop.indexOfHarvest.Value;
+                string itemId = crop.isWildSeedCrop() ? crop.whichForageCrop.Value : crop.indexOfHarvest.Value;
                 if (!_indexOfCropNames.TryGetValue(itemId, out string? harvestName)) {
                     harvestName = new StardewValley.Object(itemId, 1).DisplayName;
                     _indexOfCropNames.Add(itemId, harvestName);
