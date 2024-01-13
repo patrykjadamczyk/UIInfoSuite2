@@ -110,9 +110,9 @@ namespace UIInfoSuite2.UIElements
             List<StardewValley.Object> similarObjects;
 
             // Junimo Hut is handled differently, because it is a building
-            if (Game1.currentLocation is BuildableGameLocation buildableLocation)
+            if (Game1.currentLocation.IsBuildableLocation())
             {
-                Building building = buildableLocation.getBuildingAt(Game1.GetPlacementGrabTile());
+                Building building = Game1.currentLocation.getBuildingAt(Game1.GetPlacementGrabTile());
 
                 if (building is JunimoHut)
                 {

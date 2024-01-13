@@ -128,7 +128,7 @@ namespace UIInfoSuite2.UIElements
             return Game1.MasterPlayer.mailReceived.Contains("willyBoatFixed");
         }
 
-        private static int GetWeatherForTomorrow()
+        private static string GetWeatherForTomorrow()
         {
             var date = new WorldDate(Game1.Date);
             ++date.TotalDays;
