@@ -103,12 +103,16 @@ namespace UIInfoSuite2.UIElements
             int overrideY = -1;
 
             // draw hover tooltip
-            if (currentTileBuilding != null && currentTileBuilding is Mill millBuilding && millBuilding.input.Value != null && !millBuilding.input.Value.isEmpty())
+            if (currentTileBuilding != null &&
+                currentTileBuilding.buildingType.Value.Equals("Mill") &&
+                currentTileBuilding.GetBuildingChest("Input") != null &&
+                !currentTileBuilding.GetBuildingChest("Input").isEmpty()
+               )
             {
                 int wheatCount = 0;
                 int beetCount = 0;
 
-                foreach (Item item in millBuilding.input.Value.items)
+                foreach (Item item in currentTileBuilding.GetBuildingChest("Input").Items)
                 {
                     if (item != null &&
                         !string.IsNullOrEmpty(item.Name))
