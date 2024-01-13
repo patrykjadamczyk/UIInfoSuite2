@@ -60,8 +60,8 @@ namespace UIInfoSuite2.UIElements
 
             var tile = (Game1.options.gamepadControls && Game1.timerUntilMouseFade <= 0) ? gamepadTile : mouseTile;
 
-            if (Game1.currentLocation is BuildableGameLocation buildableLocation)
-                _currentTileBuilding.Value = buildableLocation.getBuildingAt(tile);
+            if (Game1.currentLocation.IsBuildableLocation())
+                _currentTileBuilding.Value = Game1.currentLocation.getBuildingAt(tile);
 
             if (Game1.currentLocation != null)
             {

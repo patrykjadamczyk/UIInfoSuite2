@@ -85,7 +85,8 @@ namespace UIInfoSuite2.UIElements
                     if (menu is SocialPage page)
                     {
                         _socialPage = page;
-                        _friendNames = _socialPage.names
+                        _friendNames = _socialPage.SocialEntries
+                            .Select(entry => entry.DisplayName)
                             .Select(name => name.ToString())
                             .ToArray();
                         break;
