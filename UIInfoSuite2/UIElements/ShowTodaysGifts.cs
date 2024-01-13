@@ -79,7 +79,7 @@ namespace UIInfoSuite2.UIElements
                     if (menu is SocialPage page)
                     {
                         _socialPage = page;
-                        _friendNames = _socialPage.SocialEntries
+                        _friends = _socialPage.SocialEntries
                             .ToArray();
                         break;
                     }
