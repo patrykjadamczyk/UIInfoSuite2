@@ -228,9 +228,8 @@ namespace UIInfoSuite2.UIElements
             }
             else if (terrain != null)
             {
-                if (terrain is HoeDirt)
+                if (terrain is HoeDirt hoeDirt)
                 {
-                    HoeDirt hoeDirt = terrain as HoeDirt;
                     if (hoeDirt.crop != null &&
                         !hoeDirt.crop.dead.Value)
                     {
@@ -273,7 +272,7 @@ namespace UIInfoSuite2.UIElements
                             {
                                 var tilePosition = Utility.ModifyCoordinatesForUIScale(
                                     Game1.GlobalToLocal(
-                                        new Vector2(terrain.Tile.X, terrain.Tile.Y) * Game1.tileSize
+                                        new Vector2(hoeDirt.Tile.X, hoeDirt.Tile.Y) * Game1.tileSize
                                     )
                                 );
                                 overrideX = (int)(tilePosition.X + Utility.ModifyCoordinateForUIScale(32));
@@ -287,11 +286,9 @@ namespace UIInfoSuite2.UIElements
                         }
                     }
                 }
-                else if (terrain is FruitTree)
+                else if (terrain is FruitTree tree)
                 {
-                    FruitTree tree = terrain as FruitTree;
-                    // var text = new StardewValley.Object(new Debris(tree.fruit.First(), Vector2.Zero, Vector2.Zero).chunkType.Value.ToString(), 1).DisplayName;
-                    var text = tree.fruit.First().DisplayName;
+                    var text = tree.GetDisplayName();
                     if (tree.daysUntilMature.Value > 0)
                     {
                         text += Environment.NewLine + tree.daysUntilMature.Value + " " +
@@ -302,7 +299,7 @@ namespace UIInfoSuite2.UIElements
 
                     if (Game1.options.gamepadControls && Game1.timerUntilMouseFade <= 0)
                     {
-                        var tilePosition = Utility.ModifyCoordinatesForUIScale(Game1.GlobalToLocal(new Vector2(terrain.Tile.X, terrain.Tile.Y) * Game1.tileSize));
+                        var tilePosition = Utility.ModifyCoordinatesForUIScale(Game1.GlobalToLocal(new Vector2(tree.Tile.X, tree.Tile.Y) * Game1.tileSize));
                         overrideX = (int)(tilePosition.X + Utility.ModifyCoordinateForUIScale(32));
                         overrideY = (int)(tilePosition.Y + Utility.ModifyCoordinateForUIScale(32));
                     }
@@ -343,7 +340,7 @@ namespace UIInfoSuite2.UIElements
 
         string? GetCropHarvestName(Crop crop)
         {
-            if (string.IsNullOrEmpty(crop.indexOfHarvest.Value))
+            if (!string.IsNullOrEmpty(crop.indexOfHarvest.Value))
             {
                 string itemId = crop.isWildSeedCrop() ? crop.whichForageCrop.Value : crop.indexOfHarvest.Value;
                 if (!_indexOfCropNames.TryGetValue(itemId, out string? harvestName)) {
