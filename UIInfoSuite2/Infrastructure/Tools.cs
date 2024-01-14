@@ -130,7 +130,7 @@ namespace UIInfoSuite2.Infrastructure
             if (Game1.activeClickableMenu is GameMenu gameMenu && gameMenu.GetCurrentPage() is InventoryPage inventory)
             {
                 FieldInfo hoveredItemField = typeof(InventoryPage).GetField("hoveredItem", BindingFlags.Instance | BindingFlags.NonPublic);
-                hoverItem = hoveredItemField.GetValue(inventory) as Item;
+                hoverItem = hoveredItemField?.GetValue(inventory) as Item;
             }
 
             if (Game1.activeClickableMenu is ItemGrabMenu itemMenu)
