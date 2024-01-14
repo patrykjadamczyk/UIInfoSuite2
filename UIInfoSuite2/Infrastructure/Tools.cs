@@ -122,7 +122,7 @@ namespace UIInfoSuite2.Infrastructure
                     if (menu is Toolbar toolbar)
                     {
                         FieldInfo hoverItemField = typeof(Toolbar).GetField("hoverItem", BindingFlags.Instance | BindingFlags.NonPublic);
-                        hoverItem = hoverItemField.GetValue(toolbar) as Item;
+                        hoverItem = hoverItemField?.GetValue(toolbar) as Item;
                     }
                 }
             }
